@@ -1,0 +1,252 @@
+// Переменные для цветов
+$primary-color: #0077b6;
+$secondary-color: #333333;
+$text-color: #ffffff;
+
+// Переменные для размеров
+$container-padding: 20px;
+$card-width: 120px;
+$location-card-height: 300px;
+$location-info-font-size: 1.2rem;
+$location-name-font-size: 1.5rem;
+
+// Стили для контейнера
+.container {
+  margin: 2rem auto;
+  background-color: $secondary-color;
+  padding: $container-padding;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  // Стили для заголовков
+  h1, h2 {
+    color: $text-color;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  // Стили для поисковой формы
+  .search-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+
+    input {
+      flex-grow: 1;
+      margin-right: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      background-color: $primary-color;
+      color: $text-color;
+      border: none;
+      border-radius: 5px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+
+  // Стили для карточки с общей информацией о месте
+  .location-card {
+    display: flex;
+    background-color: $primary-color;
+    color: $text-color;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    height: $location-card-height;
+
+    .location-info {
+      flex: 1;
+      margin-right: 1rem;
+      font-size: $location-info-font-size;
+      display: flex;
+      flex-direction: column;
+
+      .location-name {
+        font-size: $location-name-font-size;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .location-details {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .hourly-forecast-container {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+
+      .hourly-forecast-title {
+        font-size: $location-name-font-size;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .hourly-forecast {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax($card-width, 1fr));
+        grid-gap: 1rem;
+        overflow-x: auto;
+
+        .forecast-hour {
+          background-color: $secondary-color;
+          color: $text-color;
+          padding: 0.7rem;
+          border-radius: 5px;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+          text-align: center;
+
+          .hour-time {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+          }
+
+          .hour-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 0.5rem;
+          }
+
+          .hour-temp {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+
+  // Стили для галереи прогноза погоды
+  .forecast-gallery {
+    display: flex;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+
+    .forecast-card {
+      flex-shrink: 0;
+      width: $card-width;
+      margin-right: 1rem;
+      background-color: $secondary-color;
+      color: $text-color;
+      padding: 0.5rem;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+      .card-title {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .card-text {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+// Стили для элементов поиска и прогноза
+.search-input {
+  color: black;
+  width: 300px;
+  margin-right: 10px;
+}
+
+.search-button {
+  width: 100px;
+
+  button {
+    width: 100%;
+  }
+}
+
+.forecast-cards {
+  .forecast-card {
+    flex: 1 0 18%;
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.search-input {
+  width: 400px;
+  margin-right: 10px;
+  position: relative;
+}
+
+.search-results-container {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.search-result {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.search-result:hover {
+  background-color: #f5f5f5;
+}
+
+.search-button {
+  width: 100px;
+}
+
+.search-button button {
+  width: 100%;
+}
+
+.forecast-cards {
+  display: flex;
+  justify-content: space-between;
+}
+
+.forecast-card {
+  flex: 1 0 18%;
+  margin-right: 15px;
+}
+
+.forecast-card:last-child {
+  margin-right: 0;
+}
+
+// Стили для фонового изображения
+.app-container {
+  background-image: url('./images/ai-water.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .container {
+    background-color: rgba(51, 51, 51, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+  }
+}
