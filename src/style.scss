@@ -1,0 +1,116 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #343a40;
+  font-family: 'Georgia', serif;
+  font-size: 4rem;  // Увеличиваем размер шрифта
+}
+
+.card {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 100%;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #343A40;
+  font-family: 'Georgia', serif;
+}
+
+.card-text {
+  color: #6c757d;
+}
+
+.back-button {
+  margin-top: 20px;
+  background-color: #343A40;  // Цвет фона всех кнопок
+  color: white;  // Цвет текста всех кнопок
+  border-color: #343A40;  // Цвет границы всех кнопок
+  transition: all 0.2s ease-in-out;
+}
+
+.object-details-img {
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  object-fit: contain;
+  margin-top: 10px;  // Добавляем отступ сверху
+}
+
+.object-details-text {
+  padding-left: 55px; // Добавляем отступ слева
+  color: #343a40;  // Меняем цвет текста на коричневый
+  font-family: 'Georgia', serif;  // Добавляем свойство font-family
+}
+
+.button {  // Исправляем опечатку в имени класса
+  background-color: #343A40;  // Цвет фона всех кнопок
+  color: white;  // Цвет текста всех кнопок
+  border-color: #343A40;  // Цвет границы всех кнопок
+  transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+  background-color: #6c757d;  // Цвет фона при наведении курсора
+  border-color: #343A40;  // Цвет границы всех кнопок
+}
+
+/* Стили для поля ввода запроса и кнопки "Искать" */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#search-input {
+  border: 1px solid #343A40;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.search-button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: 1px solid #343A40;
+  border-radius: 5px;
+  background-color: white;
+  color: #343A40;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #343A40;  // Коричневый цвет фона при наведении
+  border-color: #343A40;  // Коричневый цвет границы при наведении
+  transition: all 0.2s ease-in-out;  // Добавляем эффект перехода
+}
+
+/* Убираем синюю подсветку при фокусе на поле ввода запроса */
+.search-input:focus {
+  border-color: #343A40;  // Цвет границы всех кнопок
+}
+
+/* Убираем синюю подсветку при выборе категории */
+.category-item:focus {
+  background-color: #f8f9fa;  // Цвет фона всех кнопок
+}
+
+/* Цвет кнопки при наведении на категорию */
+.category-item:hover {
+  background-color: #343A40;  // Коричневый цвет фона при наведении
+}

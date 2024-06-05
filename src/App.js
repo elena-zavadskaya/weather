@@ -1,9 +1,7 @@
-import logo from './logo.svg';
 import React, { useState, useEffect } from 'react';
-import { Container, Nav, Navbar, Row, Col, Card, CardDeck, Form, Button, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import './App.css';
 import './App.scss';
-import backgroundImage from './images/ai-water.jpg';
 
 const SearchResults = ({ searchResults, handleCityClick }) => {
   return (
@@ -14,19 +12,65 @@ const SearchResults = ({ searchResults, handleCityClick }) => {
           className="search-result"
           onClick={() => handleCityClick(result.LocalizedName, result.Key)}
         >
-          {result.LocalizedName}, {result.Country.LocalizedName}
+          <div>{result.LocalizedName}, {result.Country.LocalizedName}</div>
+          <div>Тип региона: {result.AdministrativeArea.LocalizedName}</div>
+          <div>Область: {result.AdministrativeArea.LocalizedName}</div>
+          <div>Страна: {result.Country.LocalizedName}</div>
         </div>
       ))}
     </div>
   );
 };
 
+const backgroundImages = {
+  'Sunny': 'sunny',
+  'Mostly Sunny': 'sunny',
+  'Partly Sunny': 'sunny',
+  'Intermittent Clouds': 'cloudy',
+  'Hazy Sunshine': 'hazy',
+  'Mostly Cloudy': 'cloudy',
+  'Cloudy': 'cloudy',
+  'Dreary (Overcast)': 'cloudy',
+  'Fog': 'fog',
+  'Showers': 'ai-water',
+  'Mostly Cloudy w/ Showers': 'cloudy',
+  'Partly Sunny w/ Showers': 'sunny',
+  'T-Storms': 'stormy',
+  'Mostly Cloudy w/ T-Storms': 'stormy',
+  'Partly Sunny w/ T-Storms': 'stormy',
+  'Rain': 'ai-water',
+  'Flurries': 'snowy',
+  'Mostly Cloudy w/ Flurries': 'snowy',
+  'Partly Sunny w/ Flurries': 'snowy',
+  'Snow': 'snowy',
+  'Mostly Cloudy w/ Snow': 'snowy',
+  'Ice': 'icy',
+  'Sleet': 'icy',
+  'Freezing Rain': 'icy',
+  'Rain and Snow': 'rainy-snowy',
+  'Hot': 'sunny',
+  'Cold': 'snowy',
+  'Windy': 'windy',
+  'Clear': 'sunny',
+  'Mostly Clear': 'sunny',
+  'Partly Cloudy': 'cloudy',
+  'Hazy Moonlight': 'hazy',
+  'Mostly Cloudy': 'cloudy',
+  'Partly Cloudy w/ Showers': 'ai-water',
+  'Mostly Cloudy w/ Showers': 'ai-water',
+  'Partly Cloudy w/ T-Storms': 'stormy',
+  'Mostly Cloudy w/ T-Storms': 'stormy',
+  'Mostly Cloudy w/ Flurries': 'snowy',
+  'Mostly Cloudy w/ Snow': 'snowy'
+};
+
 function App() {
   const [locationData, setLocationData] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
   const [fiveDayForecast, setFiveDayForecast] = useState(null);
-  const [currentTemperature, setCurrentTemprature] = useState(null);
+  const [currentTemperature, setCurrentTemperature] = useState(null);
   const [iconPhrase, setIconPhrase] = useState(null);
+  const [iconPhraseEn, setIconPhraseEn] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [hourlyForecast, setHourlyForecast] = useState(null);
@@ -45,6 +89,9 @@ function App() {
       const weatherResponse = await fetch(`http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}&language=ru-ru&details=true`);
       const weatherData = await weatherResponse.json();
 
+      const weatherResponseEn = await fetch(`http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}&details=true`);
+      const weatherDataEn = await weatherResponseEn.json();
+
       const fiveDayForecastResponse = await fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}&language=ru-ru&details=true`);
       const fiveDayForecastData = await fiveDayForecastResponse.json();
 
@@ -54,9 +101,14 @@ function App() {
       setLocationData(locationData[0]);
       setWeatherData(weatherData[0]);
       setFiveDayForecast(fiveDayForecastData);
-      setHourlyForecast(hourlyForecastData); // Добавлено
-      setCurrentTemprature(weatherData[0].Temperature.Metric.Value);
+      setHourlyForecast(hourlyForecastData);
+      setCurrentTemperature(Math.round(weatherData[0].Temperature.Metric.Value));
       setIconPhrase(weatherData[0].WeatherText);
+      setIconPhraseEn(weatherDataEn[0].WeatherText);
+
+      console.log('Weather Text (RU):', weatherData[0].WeatherText);
+      console.log('Weather Text (EN):', weatherDataEn[0].WeatherText);
+      console.log('Five Day Forecast:', fiveDayForecastData);
     } catch (error) {
       console.error(error);
     }
@@ -93,8 +145,8 @@ function App() {
   const latitude = locationData.GeoPosition.Latitude;
   const longitude = locationData.GeoPosition.Longitude;
   const headline = weatherData.Headline;
-  const dailyForecast = weatherData.DailyForecasts && weatherData.DailyForecasts.length > 0
-    ? weatherData.DailyForecasts[0]
+  const dailyForecast = fiveDayForecast.DailyForecasts && fiveDayForecast.DailyForecasts.length > 0
+    ? fiveDayForecast.DailyForecasts[0]
     : null;
   const minTemperature = dailyForecast
     ? dailyForecast.Temperature.Minimum.Value
@@ -102,8 +154,6 @@ function App() {
   const maxTemperature = dailyForecast
     ? dailyForecast.Temperature.Maximum.Value
     : null;
-  const dayIconPhrase = dailyForecast;
-  const nightIconPhrase = dailyForecast;
 
 const fahrenheitToCelsius = (fahrenheit) => {
   return ((fahrenheit - 32) * 5) / 9;
@@ -112,8 +162,27 @@ const fahrenheitToCelsius = (fahrenheit) => {
 const minTemperatureCelsius = minTemperature !== null ? Math.round(fahrenheitToCelsius(minTemperature)) : null;
 const maxTemperatureCelsius = maxTemperature !== null ? Math.round(fahrenheitToCelsius(maxTemperature)) : null;
 
+const getBackgroundImage = () => {
+  const imageName = backgroundImages[iconPhraseEn] || 'ai-water';
+  console.log('Selected background image:', imageName);
+  return `${process.env.PUBLIC_URL}/images/${imageName}.jpg`;
+};
 return (
-  <div className="app-container" style={{ backgroundImage: '`url(${backgroundImage})`' }}>
+  <div
+    className="app-container"
+    style={{
+      backgroundImage: `url(${getBackgroundImage()})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      height: '100vh',
+      width: '100vw',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      zIndex: -1
+    }}
+  >
     <Container className="my-5 container">
       <div className="text-center mt-3 mb-5">
         <h1 className="app-title">Погода по городам</h1>
@@ -196,5 +265,6 @@ return (
     </Container>
   </div>
 );
-};
+}
+
 export default App;
