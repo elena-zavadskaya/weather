@@ -23,45 +23,40 @@ const SearchResults = ({ searchResults, handleCityClick }) => {
 };
 
 const backgroundImages = {
-  'Sunny': 'sunny',
-  'Mostly Sunny': 'sunny',
-  'Partly Sunny': 'sunny',
-  'Intermittent Clouds': 'cloudy',
-  'Hazy Sunshine': 'hazy',
-  'Mostly Cloudy': 'cloudy',
-  'Cloudy': 'cloudy',
-  'Dreary (Overcast)': 'cloudy',
-  'Fog': 'fog',
-  'Showers': 'ai-water',
-  'Mostly Cloudy w/ Showers': 'cloudy',
-  'Partly Sunny w/ Showers': 'sunny',
-  'T-Storms': 'stormy',
-  'Mostly Cloudy w/ T-Storms': 'stormy',
-  'Partly Sunny w/ T-Storms': 'stormy',
-  'Rain': 'ai-water',
-  'Flurries': 'snowy',
-  'Mostly Cloudy w/ Flurries': 'snowy',
-  'Partly Sunny w/ Flurries': 'snowy',
-  'Snow': 'snowy',
-  'Mostly Cloudy w/ Snow': 'snowy',
-  'Ice': 'icy',
-  'Sleet': 'icy',
-  'Freezing Rain': 'icy',
-  'Rain and Snow': 'rainy-snowy',
-  'Hot': 'sunny',
-  'Cold': 'snowy',
-  'Windy': 'windy',
-  'Clear': 'sunny',
-  'Mostly Clear': 'sunny',
-  'Partly Cloudy': 'cloudy',
-  'Hazy Moonlight': 'hazy',
-  'Mostly Cloudy': 'cloudy',
-  'Partly Cloudy w/ Showers': 'ai-water',
-  'Mostly Cloudy w/ Showers': 'ai-water',
-  'Partly Cloudy w/ T-Storms': 'stormy',
-  'Mostly Cloudy w/ T-Storms': 'stormy',
-  'Mostly Cloudy w/ Flurries': 'snowy',
-  'Mostly Cloudy w/ Snow': 'snowy'
+  'sunny': 'sunny',
+  'mostly sunny': 'sunny',
+  'partly sunny': 'sunny',
+  'intermittent clouds': 'cloudy',
+  'hazy sunshine': 'hazy',
+  'mostly cloudy': 'cloudy',
+  'cloudy': 'cloudy',
+  'dreary (overcast)': 'cloudy',
+  'fog': 'fog',
+  'showers': 'ai-water',
+  'mostly cloudy w/ showers': 'cloudy',
+  'partly sunny w/ showers': 'sunny',
+  't-storms': 'stormy',
+  'mostly cloudy w/ t-storms': 'stormy',
+  'partly sunny w/ t-storms': 'stormy',
+  'rain': 'ai-water',
+  'flurries': 'snowy',
+  'mostly cloudy w/ flurries': 'snowy',
+  'partly sunny w/ flurries': 'snowy',
+  'snow': 'snowy',
+  'mostly cloudy w/ snow': 'snowy',
+  'ice': 'icy',
+  'sleet': 'icy',
+  'freezing rain': 'icy',
+  'rain and snow': 'rainy-snowy',
+  'hot': 'sunny',
+  'cold': 'snowy',
+  'windy': 'windy',
+  'clear': 'sunny',
+  'mostly clear': 'sunny',
+  'partly cloudy': 'cloudy',
+  'hazy moonlight': 'hazy',
+  'partly cloudy w/ showers': 'ai-water',
+  'partly cloudy w/ t-storms': 'stormy'
 };
 
 function App() {
@@ -162,11 +157,18 @@ const fahrenheitToCelsius = (fahrenheit) => {
 const minTemperatureCelsius = minTemperature !== null ? Math.round(fahrenheitToCelsius(minTemperature)) : null;
 const maxTemperatureCelsius = maxTemperature !== null ? Math.round(fahrenheitToCelsius(maxTemperature)) : null;
 
+const normalizePhrase = (phrase) => {
+  if (!phrase) return '';
+  return phrase.trim().toLowerCase().replace(/\s+/g, ' ');
+};
+
 const getBackgroundImage = () => {
-  const imageName = backgroundImages[iconPhraseEn] || 'ai-water';
+  const normalizedPhrase = normalizePhrase(iconPhraseEn);
+  const imageName = backgroundImages[normalizedPhrase] || 'ai-water';
   console.log('Selected background image:', imageName);
   return `${process.env.PUBLIC_URL}/images/${imageName}.jpg`;
 };
+
 return (
   <div
     className="app-container"
